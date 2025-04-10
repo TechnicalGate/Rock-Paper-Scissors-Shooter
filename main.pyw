@@ -1,27 +1,36 @@
 import math
 import random
 import sys #so you can quit the game
+import os #so i can package the game as exe later
 import pygame
 
 pygame.init()
 
+#allow packaging of game
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+def load_image(image):
+    return pygame.image.load(resource_path(image))
 
 display = pygame.display.set_mode((800,600))
 clock = pygame.time.Clock()
 
-heart = pygame.image.load('assets/fx/hp.png')
-notheart = pygame.image.load('assets/fx/-hp.png')
+heart = load_image('assets/fx/hp.png')
+notheart = load_image('assets/fx/-hp.png')
 
-weps = {0:pygame.image.load('assets/fx/paper.png'),
-        1:pygame.image.load('assets/fx/rock.png'),
-        2:pygame.image.load('assets/fx/scissors.png')}
+weps = {0:load_image('assets/fx/paper.png'),
+        1:load_image('assets/fx/rock.png'),
+        2:load_image('assets/fx/scissors.png')}
 
 my_font = pygame.font.SysFont('Comic Sans MS', 30)
 
 #WEAPONS
 class Paper_Weapon:
     def __init__(self):
-        self.pic = pygame.image.load('assets/weapons/paper.png')
+        self.pic = load_image('assets/weapons/paper.png')
         self.hitbox = pygame.Rect(0,0,0,0)
 
     def handle_weapon(self, display):
@@ -72,9 +81,9 @@ class Rock_Weapon_Projectile:
 
 class Scissor_Weapon:
     def __init__(self):
-        self.anims = [pygame.image.load('assets/weapons/scissors_0.png'),
-                      pygame.image.load('assets/weapons/scissors_1.png'),
-                      pygame.image.load('assets/weapons/scissors_2.png')]
+        self.anims = [load_image('assets/weapons/scissors_0.png'),
+                      load_image('assets/weapons/scissors_1.png'),
+                      load_image('assets/weapons/scissors_2.png')]
         self.curanim = 0
 
         self.hitbox = pygame.Rect(2,2,64,64)
@@ -122,9 +131,9 @@ class Player:
 
         self.hitbox = pygame.Rect(x+10, y, 50, 64)
 
-        self.walkanim = [pygame.image.load('assets/you_walk_0.png'),
-                        pygame.image.load('assets/you_walk_1.png')]
-        self.still = pygame.image.load('assets/you_still.png')
+        self.walkanim = [load_image('assets/you_walk_0.png'),
+                        load_image('assets/you_walk_1.png')]
+        self.still = load_image('assets/you_still.png')
 
         self.curanim = 0
         self.moving = False
@@ -188,15 +197,15 @@ class Rock:
         self.xv = math.cos(self.angle) * self.spd
         self.yv = math.sin(self.angle) * self.spd
 
-        self.anims = [pygame.image.load('assets/rock_enemy/rock_0.png'),
-                      pygame.image.load('assets/rock_enemy/rock_1.png'),
-                      pygame.image.load('assets/rock_enemy/rock_2.png'),
-                      pygame.image.load('assets/rock_enemy/rock_3.png'),
-                      pygame.image.load('assets/rock_enemy/rock_4.png')]
+        self.anims = [load_image('assets/rock_enemy/rock_0.png'),
+                      load_image('assets/rock_enemy/rock_1.png'),
+                      load_image('assets/rock_enemy/rock_2.png'),
+                      load_image('assets/rock_enemy/rock_3.png'),
+                      load_image('assets/rock_enemy/rock_4.png')]
         
-        self.dieanim = [pygame.image.load('assets/rock_enemy/rock_die_0.png'),
-                        pygame.image.load('assets/rock_enemy/rock_die_1.png'),
-                        pygame.image.load('assets/rock_enemy/rock_die_2.png')]
+        self.dieanim = [load_image('assets/rock_enemy/rock_die_0.png'),
+                        load_image('assets/rock_enemy/rock_die_1.png'),
+                        load_image('assets/rock_enemy/rock_die_2.png')]
 
         self.curanim = 0
 
@@ -281,14 +290,14 @@ class Paper:
         self.xv = math.cos(self.angle) * self.spd
         self.yv = math.sin(self.angle) * self.spd
 
-        self.anims = [pygame.image.load('assets/paper_enemy/paper_0.png'),
-                      pygame.image.load('assets/paper_enemy/paper_1.png'),
-                      pygame.image.load('assets/paper_enemy/paper_2.png'),
-                      pygame.image.load('assets/paper_enemy/paper_1.png')]
+        self.anims = [load_image('assets/paper_enemy/paper_0.png'),
+                      load_image('assets/paper_enemy/paper_1.png'),
+                      load_image('assets/paper_enemy/paper_2.png'),
+                      load_image('assets/paper_enemy/paper_1.png')]
         
-        self.dieanim = [pygame.image.load('assets/paper_enemy/paper_die_0.png'),
-                        pygame.image.load('assets/paper_enemy/paper_die_1.png'),
-                        pygame.image.load('assets/paper_enemy/paper_die_2.png')]
+        self.dieanim = [load_image('assets/paper_enemy/paper_die_0.png'),
+                        load_image('assets/paper_enemy/paper_die_1.png'),
+                        load_image('assets/paper_enemy/paper_die_2.png')]
 
         self.curanim = 0
     
@@ -357,19 +366,19 @@ class Scissors:
         self.spd = 3
         self.set_target()
 
-        self.moveanim = [pygame.image.load('assets/scissors_enemy/scissors_walk_0.png'),
-                         pygame.image.load('assets/scissors_enemy/scissors_walk_1.png')]
+        self.moveanim = [load_image('assets/scissors_enemy/scissors_walk_0.png'),
+                         load_image('assets/scissors_enemy/scissors_walk_1.png')]
         
-        self.atkanim = [pygame.image.load('assets/scissors_enemy/scissors_walk_1.png'),
-                        pygame.image.load('assets/scissors_enemy/scissors_attack_1.png'),
-                        pygame.image.load('assets/scissors_enemy/scissors_attack_2.png'),
-                        pygame.image.load('assets/scissors_enemy/scissors_walk_1.png'),
-                        pygame.image.load('assets/scissors_enemy/scissors_attack_1.png'),
-                        pygame.image.load('assets/scissors_enemy/scissors_attack_2.png'),
-                        pygame.image.load('assets/scissors_enemy/scissors_walk_1.png')]
+        self.atkanim = [load_image('assets/scissors_enemy/scissors_walk_1.png'),
+                        load_image('assets/scissors_enemy/scissors_attack_1.png'),
+                        load_image('assets/scissors_enemy/scissors_attack_2.png'),
+                        load_image('assets/scissors_enemy/scissors_walk_1.png'),
+                        load_image('assets/scissors_enemy/scissors_attack_1.png'),
+                        load_image('assets/scissors_enemy/scissors_attack_2.png'),
+                        load_image('assets/scissors_enemy/scissors_walk_1.png')]
         
-        self.dieanim = [pygame.image.load('assets/scissors_enemy/scissors_walk_0.png'),
-                        pygame.image.load('assets/scissors_enemy/scissors_die_0.png')]
+        self.dieanim = [load_image('assets/scissors_enemy/scissors_walk_0.png'),
+                        load_image('assets/scissors_enemy/scissors_die_0.png')]
 
         self.curanim = 0
 
