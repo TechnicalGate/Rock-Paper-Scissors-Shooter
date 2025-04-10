@@ -18,6 +18,9 @@ def load_image(image):
 display = pygame.display.set_mode((800,600))
 clock = pygame.time.Clock()
 
+icon = load_image('assets/icon.ico')
+pygame.display.set_icon(icon)
+
 heart = load_image('assets/fx/hp.png')
 notheart = load_image('assets/fx/-hp.png')
 
