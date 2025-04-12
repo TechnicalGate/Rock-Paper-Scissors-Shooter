@@ -1,6 +1,8 @@
 # Rock-Paper-Scissors-Shooter
 a simple rock paper scissors game in python (not)
 
+![Gameplay demo gif](https://github.com/TechnicalGate/Rock-Paper-Scissors-Shooter/blob/main/demo/demo4.gif)
+
 # How to play:
 Use WASD to move, mouse to aim, left click to activate weapon (if possible), use numbers 1,2,3 to switch weapons to paper, rock, scissors respectively
 
